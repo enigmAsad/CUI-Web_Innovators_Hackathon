@@ -1,0 +1,16 @@
+README.md
+pyproject.toml
+app/__init__.py
+app/config.py
+app/main.py
+app/routes.py
+app/schemas.py
+app/graph/__init__.py
+app/graph/voice_graph.py
+app/services/openai_client.py
+tests/test_graph.py
+voice_assistant.egg-info/PKG-INFO
+voice_assistant.egg-info/SOURCES.txt
+voice_assistant.egg-info/dependency_links.txt
+voice_assistant.egg-info/requires.txt
+voice_assistant.egg-info/top_level.txt
