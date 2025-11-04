@@ -23,7 +23,7 @@ This backend provides the API for a farming assistance platform. It handles user
 
 ### Authentication (`/api/auth`)
 
--   `POST /signup`: Register a new user (farmer or admin).
+-   `POST /signup`: Register a new user (roles accepted: `farmer`, `admin`; `expert` is still accepted as a legacy alias for `admin`).
     -   Controller: `signup`
 -   `POST /signin`: Login a user.
     -   Controller: `signin`
@@ -104,6 +104,7 @@ This backend provides the API for a farming assistance platform. It handles user
 -   `GET /farming-notifications`: Get farming alerts and notifications for a specific region.
     -   Controller: `getFarmingAlerts`
     -   Uses the OpenAI Responses API to synthesize short actionable alerts based on the provided region context.
+    -   When the OpenAI integration is unavailable or returns no text, the controller responds with HTTP 200 and a fallback message (`"Update not available\nCheck local advisories"`) plus an optional warning flag.
 
 ### Weather (`/api/weather`)
 
@@ -181,7 +182,7 @@ This backend provides the API for a farming assistance platform. It handles user
     -   `name`: String
     -   `email`: String (unique)
     -   `password`: String (hashed)
-    -   `role`: (farmer, admin)
+    -   `role`: (farmer, admin, expert*) — `expert` remains for legacy data but behaves as admin in auth flows.
     -   `socketId`: String
 -   **Crop:** Represents a crop belonging to a user.
     -   `name`: String
@@ -238,14 +239,14 @@ This backend provides the API for a farming assistance platform. It handles user
 
 ### `verifyToken`
 
-This middleware is used to protect routes that require authentication. It checks for a JWT in the request's cookies. If the token is valid, it decodes the user's ID and role and attaches them to the request object (`req.userId`, `req.userRole`). If the token is missing or invalid, it returns an error.
+This middleware is used to protect routes that require authentication. It first checks for a JWT in the request's cookies and falls back to a `Bearer` token in the `Authorization` header. If the token is valid, it decodes the user's ID and role and attaches them to the request object (`req.userId`, `req.userRole`). If the token is missing or invalid, it returns an error.
 
 ## Environment Variables
 
 The backend expects the following keys in `backend/.env`:
 
 - `MONGO_URL`: MongoDB connection string.
-- `JWT_SECRET`: Secret used to sign application JWTs.
+- `JWT_SECRET` (preferred) or `JWT_KEY`: Secret used to sign application JWTs (one of them must be set).
 - `OPENAI_API_KEY`: Credential for the OpenAI Responses API integrations.
 - `MAPBOX_TOKEN`: Access token for Mapbox services used by the weather module.
 - `NEWS_API_KEY`: API key for the farming news feed (NewsAPI).
