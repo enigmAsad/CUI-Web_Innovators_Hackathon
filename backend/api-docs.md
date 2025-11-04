@@ -147,14 +147,27 @@ Generate short farming alerts for the requested region.
 
 ## Weather
 
-### GET /api/weather/current
-- Query: `city=Lahore`
+### GET /api/weather/
 - Success (200):
 ```
-{ "city": "Lahore", "country": "PK", "temperatureC": 30.5, "humidity": 48, "condition": "clear sky", "icon": "01d", "windSpeed": 3.6, "dt": 1730716800 }
+{
+    "generatedAt": "2025-11-04T12:00:00.000Z",
+    "mapboxToken": "<mapbox-token-if-provided>",
+    "cities": [
+        {
+            "city": "Karachi",
+            "condition": "Humid heatwave",
+            "temperature": 34,
+            "humidity": 68,
+            "precipitationChance": 12,
+            "category": "heat",
+            "coordinates": { "latitude": 24.8607, "longitude": 67.0011 }
+        }
+    ]
+}
 ```
-- Env required: `OPENWEATHER_API_KEY` (or `WEATHER_API_KEY`)
-- Error (500): `{ message: "Failed to fetch weather" }`
+- Env required: `MAPBOX_TOKEN` (optional; coordinates will fall back to defaults if not provided)
+- Error (500): `{ "error": "Failed to load weather data" }`
 
 ## Short Advice
 
@@ -216,5 +229,5 @@ Generate short advice using recent price trend; optionally include rain signal f
 - `NODE_ENV` (affects cookie flags)
 - `NEWS_API_KEY` (for `/api/news/farming_news`)
 - `OPENAI_API_KEY` (optional; enables rich alerts for `/api/notifications/farming-notifications`)
-- `OPENWEATHER_API_KEY` or `WEATHER_API_KEY` (for `/api/weather/current`)
+- `MAPBOX_TOKEN` (optional; for `/api/weather`)
 

@@ -1,5 +1,8 @@
 # Backend Documentation
 
+> [!WARNING]
+> **This document describes the full intended scope of the backend, including numerous features that are not currently active.** Many of the API endpoints listed here (such as Appointments, Crops, Records, and Tasks) are not enabled in the primary `server.js` file and will result in a `404 Not Found` error if called. Please refer to `api-docs.md` for a focused guide on the currently active endpoints.
+
 ## Project Overview
 
 This backend provides the API for a farming assistance platform. It handles user authentication, data storage for farmers and experts, appointments, blog posts, recommendations, and more.
@@ -32,7 +35,18 @@ This backend provides the API for a farming assistance platform. It handles user
 -   `GET /validate-token`: Validate the user's token.
     -   Controller: `validate-token`
 
-### Appointments (`/api/appointments`)
+### Comments (`/api/comments`) [protected]
+
+-   `GET /post/:postId`: List comments for a specific post.
+    -   Controller: `getCommentsForPost`
+-   `POST /post/:postId`: Create a new comment on a post. (Requires authentication)
+    -   Controller: `createComment`
+-   `PATCH /:id`: Update a comment by its ID. (Requires authentication)
+    -   Controller: `updateComment`
+-   `DELETE /:id`: Delete a comment by its ID. (Requires authentication)
+    -   Controller: `deleteComment`
+
+### Appointments (`/api/appointments`) [INACTIVE]
 
 -   `POST /book`: Book an appointment with an expert. (Requires authentication)
     -   Controller: `bookAppointment`
@@ -128,7 +142,14 @@ This backend provides the API for a farming assistance platform. It handles user
 -   `DELETE /:id`: Delete a post. (Requires authentication)
     -   Controller: `deletePost`
 
-### Recommendations (`/api/recommendations`)
+### Profile (`/api/profile`) [protected]
+
+-   `GET /region`: Get the logged-in farmer's saved region. (Requires `farmer` role)
+    -   Controller: `getRegion`
+-   `PUT /region`: Create or update the logged-in farmer's preferred region. (Requires `farmer` role)
+    -   Controller: `updateRegion`
+
+### Recommendations (`/api/recommendations`) [INACTIVE]
 
 -   `POST /recommendations`: Get farming recommendations based on provided data.
     -   Controller: `getRecommendations`
@@ -140,7 +161,26 @@ This backend provides the API for a farming assistance platform. It handles user
     -   Controller: `getShortAdvice`
     -   Returns 2–3 concise, input-driven advisories such as weather or market reminders.
 
-### Records (`/api/records`)
+### Market Data (`/api/market`)
+
+-   `POST /items`: Create a new market item. (Requires `admin` role)
+    -   Controller: `createMarketItem`
+-   `PATCH /items/:id`: Update a market item. (Requires `admin` role)
+    -   Controller: `updateMarketItem`
+-   `DELETE /items/:id`: Soft-delete (disable) a market item. (Requires `admin` role)
+    -   Controller: `deleteMarketItem`
+-   `POST /prices`: Add or update a price for an item in a specific city. (Requires `admin` role)
+    -   Controller: `createMarketPrice`
+-   `GET /items`: Get a list of all market items, optionally with latest prices for a city.
+    -   Controller: `getMarketItems`
+-   `GET /items/:id/trend`: Get the 7-day price trend for an item in a specific city.
+    -   Controller: `getItemPriceTrend`
+-   `GET /compare`: Compare price trends for multiple items in a city.
+    -   Controller: `comparePrices`
+-   `GET /prices/summary`: Get a summary of market data. (Requires `admin` role)
+    -   Controller: `getPricesSummary`
+
+### Records (`/api/records`) [INACTIVE]
 
 -   `POST /add`: Add a new financial record. (Requires authentication)
     -   Controller: `addRecord`
@@ -245,8 +285,11 @@ This middleware is used to protect routes that require authentication. It first 
 
 The backend expects the following keys in `backend/.env`:
 
-- `MONGO_URL`: MongoDB connection string.
-- `JWT_SECRET` (preferred) or `JWT_KEY`: Secret used to sign application JWTs (one of them must be set).
-- `OPENAI_API_KEY`: Credential for the OpenAI Responses API integrations.
-- `MAPBOX_TOKEN`: Access token for Mapbox services used by the weather module.
-- `NEWS_API_KEY`: API key for the farming news feed (NewsAPI).
+-   `MONGO_URL`: **Required.** MongoDB connection string.
+-   `JWT_SECRET` (preferred) or `JWT_KEY`: **Required.** Secret used to sign application JWTs (one must be set).
+-   `PORT`: Optional. The port for the server to listen on (default: `8000`).
+-   `CORS_ORIGIN`: Optional. The allowed origin for CORS requests (default: `http://localhost:5173`).
+-   `NODE_ENV`: Optional. Set to `production` to enable secure cookies (default: `development`).
+-   `OPENAI_API_KEY`: Optional. Credential for OpenAI API integrations (used in recommendations, alerts, etc.).
+-   `MAPBOX_TOKEN`: Optional. Access token for Mapbox services used by the weather module.
+-   `NEWS_API_KEY`: Optional. API key for the farming news feed (NewsAPI).
