@@ -183,10 +183,74 @@
     backdrop-filter: blur(20px);
     border: 1px solid rgba(139, 92, 246, 0.5);
     border-radius: 12px;
-    padding: 1rem;
+    padding: 0;
     font-family: 'Inter', sans-serif;
+    min-width: 200px;
 
     .weather-popup {
+      &.enhanced {
+        .popup-header {
+          padding: 1rem;
+          border-radius: 12px 12px 0 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          color: #fff;
+
+          h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 0;
+          }
+
+          .temp-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+          }
+        }
+
+        .popup-content {
+          padding: 1rem;
+
+          .condition {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.875rem;
+            margin: 0 0 1rem 0;
+            font-weight: 500;
+          }
+
+          .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+
+            .stat {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              padding: 0.5rem;
+              background: rgba(139, 92, 246, 0.1);
+              border-radius: 8px;
+
+              .label {
+                font-size: 0.75rem;
+                color: rgba(255, 255, 255, 0.6);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                margin-bottom: 0.25rem;
+              }
+
+              .value {
+                font-size: 1rem;
+                font-weight: 600;
+                color: #fff;
+              }
+            }
+          }
+        }
+      }
+
       h3 {
         color: #fff;
         font-size: 1.125rem;
