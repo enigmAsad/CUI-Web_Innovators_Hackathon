@@ -1,3 +1,23 @@
+Metadata-Version: 2.4
+Name: voice-assistant
+Version: 0.1.0
+Summary: Voice-based assistant microservice for farmers leveraging FastAPI, LangGraph, and OpenAI.
+Author: CUI Web Innovators
+Requires-Python: <3.13,>=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi<1.0.0,>=0.111.0
+Requires-Dist: uvicorn[standard]<1.0.0,>=0.30.0
+Requires-Dist: openai<2.0.0,>=1.45.0
+Requires-Dist: langgraph<0.2.0,>=0.1.9
+Requires-Dist: pydantic<3.0.0,>=2.7.0
+Requires-Dist: pydantic-settings<3.0.0,>=2.2.0
+Requires-Dist: python-multipart<0.1.0,>=0.0.9
+Requires-Dist: aiofiles<24.0.0,>=23.2.1
+Provides-Extra: dev
+Requires-Dist: pytest<9.0.0,>=8.2.0; extra == "dev"
+Requires-Dist: pytest-asyncio<0.24.0,>=0.23.0; extra == "dev"
+Requires-Dist: httpx<0.28.0,>=0.27.0; extra == "dev"
+
 # Voice Assistant Microservice
 
 Language-first assistant for Pakistani farmers that accepts spoken questions, reasons with OpenAI GPT-5 models, and replies with synthesized speech. Built with FastAPI, LangGraph, and the OpenAI Python SDK.
