@@ -58,6 +58,14 @@ async def voice_interact(
 
     start_time = time.perf_counter()
 
+    logger.info(
+        "Voice request received | filename=%s mime=%s bytes=%s language=%s",
+        audio.filename,
+        audio.content_type,
+        len(raw_audio),
+        selected_language,
+    )
+
     try:
         graph_result = await run_voice_graph(
             {
@@ -80,10 +88,12 @@ async def voice_interact(
     tts_audio = graph_result.get("tts_audio")
 
     logger.info(
-        "Voice interaction complete | transcript_chars=%s response_chars=%s processing_ms=%.2f",
+        "Voice interaction complete | transcript_chars=%s response_chars=%s processing_ms=%.2f stt_model=%s tts_model=%s",
         len(transcript),
         len(response_text),
         processing_ms,
+        graph_result.get("stt_model"),
+        graph_result.get("tts_model"),
     )
 
     audio_base64 = base64.b64encode(tts_audio).decode("utf-8") if tts_audio else None

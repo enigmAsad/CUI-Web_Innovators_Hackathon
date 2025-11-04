@@ -53,7 +53,12 @@ def _transcribe(state: VoiceGraphState) -> VoiceGraphState:
     )
 
     transcript = transcription.text or ""
-    logger.debug("Transcribed farmer audio to '%s'", transcript)
+    logger.info(
+        "Transcribed audio | language=%s text_len=%s confidence=%s",
+        transcription.language or language,
+        len(transcript),
+        transcription.confidence,
+    )
 
     return {
         "transcript": transcript,
@@ -73,7 +78,7 @@ def _generate_response(state: VoiceGraphState) -> VoiceGraphState:
     language = state.get("language", settings.default_language)
 
     if not transcript:
-        logger.warning("Transcript is empty; returning apology message.")
+        logger.warning("Transcript empty | sending fallback response")
         fallback = "معذرت، مجھے آپ کی آواز واضح طور پر سنائی نہیں دی۔ براہ کرم دوبارہ بولیں۔"
         return {
             "response_text": fallback,
@@ -87,7 +92,12 @@ def _generate_response(state: VoiceGraphState) -> VoiceGraphState:
     )
 
     response_text = llm_result.text or ""
-    logger.debug("LLM response produced text of length %s", len(response_text))
+    logger.info(
+        "LLM response | model=%s language=%s text_len=%s",
+        llm_result.model,
+        language,
+        len(response_text),
+    )
 
     return {
         "response_text": response_text,
@@ -115,6 +125,14 @@ def _synthesize(state: VoiceGraphState) -> VoiceGraphState:
         voice=settings.tts_voice,
         audio_format=settings.tts_format,
         model=settings.tts_model,
+    )
+
+    logger.info(
+        "Synthesised speech | model=%s voice=%s format=%s bytes=%s",
+        speech.model,
+        speech.voice,
+        speech.format,
+        len(speech.audio_bytes),
     )
 
     return {

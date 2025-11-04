@@ -78,6 +78,14 @@ class OpenAIService:
     ) -> TranscriptionResult:
         """Send audio bytes to Whisper for transcription."""
 
+        logger.debug(
+            "Requesting transcription | filename=%s bytes=%s language=%s mime=%s",
+            filename,
+            len(audio_bytes),
+            language,
+            mime_type,
+        )
+
         response = self._client.audio.transcriptions.create(
             model=self._stt_model,
             file=(filename, audio_bytes),
@@ -110,6 +118,13 @@ class OpenAIService:
 
         target_model = model or self._llm_model
 
+        logger.debug(
+            "Generating response | model=%s language=%s transcript_snippet=%s",
+            target_model,
+            language,
+            transcript[:80].replace("\n", " ") if transcript else "",
+        )
+
         system_prompt = (
             "You are Zarai Dost, a caring agricultural expert helping Pakistani farmers. "
             "Respond with empathy, concise actionable steps, and mention relevant local context when known. "
@@ -134,7 +149,6 @@ class OpenAIService:
                     ],
                 },
             ],
-            temperature=temperature,
             max_output_tokens=300,
         )
 
@@ -162,7 +176,7 @@ class OpenAIService:
             model=target_model,
             voice=target_voice,
             input=text,
-            format=target_format,
+            response_format=target_format,
         )
 
         if hasattr(speech, "content") and isinstance(speech.content, (bytes, bytearray)):
@@ -171,8 +185,16 @@ class OpenAIService:
             audio_bytes = bytes(speech.data)
         elif hasattr(speech, "read"):
             audio_bytes = speech.read()
-        else:  # pragma: no cover - safety net for future SDK changes
+        else:  # pragma: no cover - fallback for SDK changes
             audio_bytes = bytes(speech)  # type: ignore[arg-type]
+
+        logger.debug(
+            "Synthesised speech bytes | model=%s voice=%s format=%s bytes=%s",
+            target_model,
+            target_voice,
+            target_format,
+            len(audio_bytes),
+        )
 
         return SpeechResult(
             audio_bytes=audio_bytes,
