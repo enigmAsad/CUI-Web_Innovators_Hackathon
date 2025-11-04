@@ -2,7 +2,7 @@ import User from '../models/auth.model.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-const ALLOWED_ROLES = ['admin', 'farmer'];
+const ALLOWED_ROLES = ['admin', 'farmer', 'expert'];
 
 export const signup = async (req, res) => {
 console.log(req.body);

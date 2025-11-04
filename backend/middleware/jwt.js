@@ -2,8 +2,16 @@
 import jwt from 'jsonwebtoken';
 
 export const verifyToken = (req, res, next) => {
-    const token = req.cookies.token;
+    let token = req.cookies?.token;
+    if (!token) {
+        const authHeader = req.headers?.authorization || req.headers?.Authorization;
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.split(' ')[1];
+        }
+    }
+
     console.log("Cookies:", req.cookies); // Verify cookies object
+    console.log("Auth header:", req.headers?.authorization); // Verify header value
     console.log("Token:", token); // Verify token value
 
     if (!token) {

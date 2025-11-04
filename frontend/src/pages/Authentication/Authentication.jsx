@@ -22,17 +22,24 @@ const Authentication = ({ setUserRole }) => {
 
   useEffect(() => {
     const checkToken = async () => {
+      const storedToken = localStorage.getItem('token');
+      if (!storedToken) {
+        console.log("No stored token found, proceed to login/signup");
+        return;
+      }
       try {
         const response = await newRequest.get('/api/auth/validate-token', { 
           withCredentials: true 
         });
         if (response.data && response.data.role) {
-          toast.success(response.data.message)
+          if (response.data.message) {
+            toast.success(response.data.message);
+          }
           setUserRole(response.data.role);
           navigate(response.data.role === 'farmer' ? '/farmer_home' : '/expert_home');
         }
       } catch (error) {
-        console.log("No valid token found, proceed to login/signup");
+        console.log("Token validation failed, proceed to login/signup");
       }
     };
     checkToken();
@@ -56,8 +63,12 @@ const Authentication = ({ setUserRole }) => {
         role: signupRole,
       }, { withCredentials: true });
       toast.success(response.data.message);
-      setUserRole(signupRole);
-      navigate(signupRole === 'farmer' ? '/farmer_home' : '/expert_home');
+      if (response.data?.token) {
+        localStorage.setItem('token', response.data.token);
+      }
+      const roleFromResponse = response.data?.role || signupRole;
+      setUserRole(roleFromResponse);
+      navigate(roleFromResponse === 'farmer' ? '/farmer_home' : '/expert_home');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Signup failed');
     }
@@ -72,8 +83,12 @@ const Authentication = ({ setUserRole }) => {
         role: signinRole,
       }, { withCredentials: true });
       toast.success(response.data.message);
-      setUserRole(signinRole);
-      navigate(signinRole === 'farmer' ? '/farmer_home' : '/expert_home');
+      if (response.data?.token) {
+        localStorage.setItem('token', response.data.token);
+      }
+      const roleFromResponse = response.data?.role || signinRole;
+      setUserRole(roleFromResponse);
+      navigate(roleFromResponse === 'farmer' ? '/farmer_home' : '/expert_home');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Signin failed');
     }
