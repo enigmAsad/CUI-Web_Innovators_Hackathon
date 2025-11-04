@@ -23,6 +23,11 @@ import ExpertAppointments from './pages/ExpertAppointment/ExpertAppointment.jsx'
 import VideoCallPage from './pages/videoCallPage/VideoCallPage.jsx';
 import VideoCallRoom from './pages/videoCallPage/VideoCallPage.jsx';
 import AddFarmerProfile from './components/addProfile/AddProfile.jsx';
+// New Farmer Dashboard Pages
+import ItemTrendPage from './pages/ItemTrendPage/ItemTrendPage.jsx';
+import ForumPage from './pages/ForumPage/ForumPage.jsx';
+import PostDetailPage from './pages/PostDetailPage/PostDetailPage.jsx';
+import FarmerProfilePage from './pages/ProfilePage/ProfilePage.jsx';
 
 function App() {
   const [userRole, setUserRole] = useState(localStorage.getItem("userRole") || null);
@@ -112,8 +117,8 @@ function App() {
       element: <BlogDetailsExpertPage/>
     },
     {
-      path: '/posts/:id',
-      element: <BlogDetailsFarmer/>
+      path: '/posts/:postId',
+      element: <PostDetailPage setUserRole={setUserRole} />
     },
     {
       path:'/update-expert-profile',
@@ -134,6 +139,31 @@ function App() {
     {
       path: "/add-profile",
       element: <AddFarmerProfile/>
+    },
+    // New Farmer Dashboard Routes
+    {
+      path: '/farmer/trends/:itemId',
+      element: userRole === 'farmer' ? (
+        <ItemTrendPage setUserRole={setUserRole} />
+      ) : (
+        <Authentication setUserRole={setUserRole} />
+      ),
+    },
+    {
+      path: '/farmer/forum',
+      element: userRole === 'farmer' ? (
+        <ForumPage setUserRole={setUserRole} />
+      ) : (
+        <Authentication setUserRole={setUserRole} />
+      ),
+    },
+    {
+      path: '/farmer/profile',
+      element: userRole === 'farmer' ? (
+        <FarmerProfilePage setUserRole={setUserRole} />
+      ) : (
+        <Authentication setUserRole={setUserRole} />
+      ),
     }
   ]);
 

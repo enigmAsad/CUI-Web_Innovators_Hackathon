@@ -7,6 +7,7 @@ import RevenueIcon from "@mui/icons-material/AttachMoneyOutlined"; // Use an ico
 import CropIcon from "@mui/icons-material/LocalFloristOutlined"; // Use an icon that fits the context
 import ProfileIcon from "@mui/icons-material/AccountCircleOutlined";
 import LogoutIcon from "@mui/icons-material/ExitToAppOutlined";
+import ForumIcon from "@mui/icons-material/ForumOutlined";
 import "./Sidebar.scss";
 import { Link, useNavigate } from "react-router-dom";
 import logo from '../../assets/logo.png';
@@ -34,7 +35,7 @@ const Sidebar = ({setUserRole}) => {
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
           <img src={logo} width={30} height={30} alt="" />
-          <span className="logo">AgriConnect</span>
+          <span className="logo">Kissan360</span>
         </Link>
       </div>
       <hr />
@@ -76,13 +77,19 @@ const Sidebar = ({setUserRole}) => {
               <span>Crop Details Management</span>
             </div>
           </Link>
+          <Link to="/farmer/forum" style={{ textDecoration: "none" }}>
+            <div className="card">
+              <ForumIcon className="icon" />
+              <span>Community Forum</span>
+            </div>
+          </Link>
         </div>
 
         <div className="profile-actions">
-          <Link to="/profile" style={{ textDecoration: "none" }}>
+          <Link to="/farmer/profile" style={{ textDecoration: "none" }}>
             <div className="action">
               <ProfileIcon className="icon" />
-              <span>Profile</span>
+              <span>Region Settings</span>
             </div>
           </Link>
           {/* <Link to="/signout" style={{ textDecoration: "none" }}> */}

@@ -238,7 +238,9 @@ const Weather = () => {
         });
 
         return () => {
-            map.remove();
+            if (map) {
+                map.remove();
+            }
         };
     }, [cities, mapboxToken, regionFeatures, pointFeatures]);
 
