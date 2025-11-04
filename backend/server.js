@@ -5,6 +5,8 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRoute from './routes/authRoute.js';
 import validateTokenRoutes from './routes/validateTokenRoutes.js';
+import postRoutes from './routes/postRoutes.js';
+import farmingNewsRoute from './routes/farmingNewsRoute.js';
 
 dotenv.config();
 const app = express();
@@ -21,6 +23,8 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoute);
 app.use('/api/auth', validateTokenRoutes);
+app.use('/api/posts', postRoutes);
+app.use('/api/news', farmingNewsRoute);
 
 // DB connect
 const connection = async () => {
