@@ -1,4 +1,4 @@
-# Kissan360 🌾
+# Kissan360
 
 **AI-driven farming assistance platform empowering Pakistani farmers with real-time market data, weather insights, and a voice-enabled assistant.**
 
@@ -6,7 +6,7 @@
 
 ---
 
-## 📖 Table of Contents
+## Table of Contents
 
 - [Features](#-features)
 - [Architecture](#-architecture)
@@ -19,39 +19,39 @@
 
 ---
 
-## ✨ Features
+## Features
 
 Kissan360 bridges the gap between technology and traditional farming with a suite of powerful tools:
 
-- **📊 Real-time Market Intelligence**
+- **Real-time Market Intelligence**
   - Track live crop prices across major Pakistani cities.
   - Analyze 7-day price trends with interactive charts.
   - Compare prices to make informed selling decisions.
 
-- **🌦️ Localized Weather Insights**
+- **Localized Weather Insights**
   - Get precise, agriculture-focused weather forecasts.
   - Receive alerts for rain, heat, and other critical conditions.
   - Visualized on a Pakistan map for easy regional understanding.
 
-- **🤖 AI Smart Advice**
+- **AI Smart Advice**
   - Receive actionable recommendations based on real-time market and weather data.
   - Powered by OpenAI to provide context-aware farming tips.
 
-- **🎙️ Urdu Voice Assistant**
+- **Urdu Voice Assistant**
   - Speak naturally in Urdu to get answers to your farming questions.
   - Powered by Whisper (STT), GPT-5 (Reasoning), and OpenAI TTS.
   - Accessible directly from the dashboard.
 
-- **👥 Community Forum**
+- **Community Forum**
   - Connect with a community of farmers and experts.
   - Share knowledge, ask questions, and discuss agricultural topics.
 
-- **🔐 Role-Based Access**
+- **Role-Based Access**
   - Secure authentication with dedicated dashboards for Farmers and Admins.
 
 ---
 
-## 🏗 Architecture
+## Architecture
 
 The project is structured as a monorepo with three main components:
 
@@ -76,7 +76,7 @@ The project is structured as a monorepo with three main components:
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - **Frontend:** React, Vite, Material-UI, Recharts, Mapbox GL, Sass
 - **Backend:** Node.js, Express, MongoDB, Mongoose, Socket.IO, JWT
@@ -85,7 +85,7 @@ The project is structured as a monorepo with three main components:
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 - Node.js (v18+)
@@ -131,7 +131,7 @@ uvicorn app.main:app --reload --port 8001
 
 ---
 
-## ⚙ Configuration
+## Configuration
 
 Create `.env` files in the respective directories with the following variables:
 
@@ -156,7 +156,7 @@ TTS_MODEL=gpt-4o-mini-tts
 
 ---
 
-## 🖥 Usage
+## Usage
 
 ### Farmer Dashboard
 Access the comprehensive dashboard to manage your farming activities.
@@ -172,7 +172,7 @@ Stay updated with real-time weather conditions across the region.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these steps:
 
@@ -184,7 +184,6 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
